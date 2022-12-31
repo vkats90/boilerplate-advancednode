@@ -62,16 +62,16 @@ module.exports = function (app, myDataBase) {
     req.logout();
     res.redirect("/");
   });
-  app.route("/auth/github").get((req, res) => {
-    passport.authenticate("github");
-  });
 
-  app.route("/auth/github/callback").get((req, res) => {
+  app.get("/auth/github", passport.authenticate("github"));
+
+  app.get(
+    "/auth/github/callback",
     passport.authenticate("github", { failureRedirect: "/" }),
-      (req, res) => {
-        res.redirect("/profile");
-      };
-  });
+    (req, res) => {
+      res.redirect("/profile");
+    }
+  );
 
   // for handling errors
   app.use((req, res, next) => {
